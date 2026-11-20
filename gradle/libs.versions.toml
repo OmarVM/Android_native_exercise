@@ -12,6 +12,8 @@ composeBom = "2026.02.01"
 daggerHilt = "2.60.1"
 retrofit = "3.0.0"
 coil = "3.2.0"
+coroutinesTest = "1.11.0"
+mockitoKotlin = "6.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,6 +39,8 @@ retrofit2-gson = { group = "com.squareup.retrofit2", name = "converter-gson", ve
 coil-kt = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil"}
 coil-kt-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
 coil-kt-core = { module = "io.coil-kt.coil3:coil-core", version.ref = "coil"}
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTest" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

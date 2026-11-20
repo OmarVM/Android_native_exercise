@@ -5,7 +5,7 @@ import com.searchandcode.improvingcodechallenge.model.Movie
 import javax.inject.Inject
 
 class RemoteRepository @Inject constructor(
-private val theMovieDBAPI: TheMovieDBAPI
+    private val theMovieDBAPI: TheMovieDBAPI
 ): RemoteRepositoryContract {
 
     override suspend fun getPopularMovies(language: String): List<Movie> {

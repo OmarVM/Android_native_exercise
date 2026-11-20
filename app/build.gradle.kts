@@ -48,6 +48,7 @@ android {
     }
     testOptions {
         unitTests.isIncludeAndroidResources = true
+        unitTests.isReturnDefaultValues = true
     }
 }
 
@@ -70,6 +71,8 @@ dependencies {
 
     //Dagger-Hilt
     testImplementation (libs.junit)
+    testImplementation (libs.kotlinx.coroutines.test)
+    testImplementation (libs.mockito.kotlin)
     implementation (libs.dagger)
     ksp(libs.dagger.compiler)
     implementation(libs.hilt.android)
