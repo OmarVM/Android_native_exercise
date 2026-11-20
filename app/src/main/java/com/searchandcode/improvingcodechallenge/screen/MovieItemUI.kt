@@ -33,11 +33,15 @@ fun MovieItemUIPreview() {
         poster_path = "/5rhTDKUhPYvpdQIijFIs5VoWsON.jpg",
         release_date = "2026-07-15"
     )
-    MovieItemUI(movie)
+    MovieItemUI(movie = movie, onMovieClick = {})
 }
 
 @Composable
-fun MovieItemUI(movie: Movie, modifier: Modifier = Modifier) {
+fun MovieItemUI(
+    movie: Movie,
+    onMovieClick: (Movie) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val sizeResolver = rememberConstraintsSizeResolver()
     val painterImage = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
@@ -48,8 +52,15 @@ fun MovieItemUI(movie: Movie, modifier: Modifier = Modifier) {
         placeholder = painterResource(R.drawable.movie_img_poster)
     )
 
-    Box(modifier = modifier.height(350.dp)) {
-        ElevatedCard(modifier = modifier.padding(5.dp)) {
+    Box(
+        modifier = modifier
+            .height(350.dp)
+    ) {
+        ElevatedCard(
+            modifier = Modifier
+                .padding(5.dp)
+                .clickable { onMovieClick(movie) }
+        ) {
             Image(
                 painter = painterImage,
                 contentDescription = movie.title,
@@ -58,7 +69,6 @@ fun MovieItemUI(movie: Movie, modifier: Modifier = Modifier) {
                     .then(sizeResolver)
                     .fillMaxWidth()
                     .height(500.dp)
-                    .clickable {}
             )
         }
     }

@@ -16,10 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.searchandcode.improvingcodechallenge.model.Movie
 import com.searchandcode.improvingcodechallenge.ui.theme.ImprovingCodeChallengeTheme
 import com.searchandcode.improvingcodechallenge.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,31 +48,46 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun ShowMovies(modifier: Modifier = Modifier) {
         val uiStateScreen by mainViewModel.uiMoviesListState.collectAsStateWithLifecycle()
+        var selectedMovie by remember { mutableStateOf<Movie?>(null) }
         var userLang = ""
         var userCont = ""
 
         ManageDialog(
             onLanguageSelected = {
-            userLang = it
-            Log.d("DEVELOP", "Selected: $it")
-        }, onContentTypeSelected = {
-            userCont = it
-            Log.d("DEVELOP", "Selected: $it")
-        },
+                userLang = it
+                Log.d("DEVELOP", "Selected: $it")
+            },
+            onContentTypeSelected = {
+                userCont = it
+                Log.d("DEVELOP", "Selected: $it")
+            },
             applyingFilters = {
                 mainViewModel.getMoviesFromUserConfiguration(userLang, userCont)
             }
         )
 
-        Box(modifier = modifier.fillMaxSize()){
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier.padding(5.dp)
-            ) {
-                items(uiStateScreen.moviesList.size) { index ->
-                    MovieItemUI(
-                        movie = uiStateScreen.moviesList[index]
-                    )
+        if (selectedMovie != null) {
+            ShowDetails(
+                movie = selectedMovie!!,
+                modifier = modifier,
+                onBackClick = { selectedMovie = null }
+            )
+        } else {
+            Box(modifier = modifier.fillMaxSize()) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier.padding(5.dp)
+                ) {
+                    items(
+                        count = uiStateScreen.moviesList.size,
+                        key = { index -> uiStateScreen.moviesList[index].id }
+                    ) { index ->
+                        val movie = uiStateScreen.moviesList[index]
+                        MovieItemUI(
+                            movie = movie,
+                            onMovieClick = { selectedMovie = it }
+                        )
+                    }
                 }
             }
         }
