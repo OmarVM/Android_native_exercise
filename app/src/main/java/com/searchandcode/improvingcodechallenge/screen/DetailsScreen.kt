@@ -91,7 +91,7 @@ fun ShowDetails(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(color = Color(0xFFE5DCDC))
+                .background(color = Color(0xFFB4D0D2))
         ) {
             Column(
                 modifier = Modifier
