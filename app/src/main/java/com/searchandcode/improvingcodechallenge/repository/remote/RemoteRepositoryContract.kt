@@ -4,7 +4,7 @@ import com.searchandcode.improvingcodechallenge.model.Movie
 
 interface RemoteRepositoryContract {
 
-    suspend fun getPopularMovies(): List<Movie>
+    suspend fun getPopularMovies(language: String): List<Movie>
 
-    suspend fun getTopRateMovies(): List<Movie>
+    suspend fun getTopRateMovies(language: String): List<Movie>
 }

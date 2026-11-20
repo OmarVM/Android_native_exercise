@@ -1,6 +1,7 @@
 package com.searchandcode.improvingcodechallenge.screen
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,6 +14,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,6 +46,21 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun ShowMovies(modifier: Modifier = Modifier) {
         val uiStateScreen by mainViewModel.uiMoviesListState.collectAsStateWithLifecycle()
+        var userLang = ""
+        var userCont = ""
+
+        ManageDialog(
+            onLanguageSelected = {
+            userLang = it
+            Log.d("DEVELOP", "Selected: $it")
+        }, onContentTypeSelected = {
+            userCont = it
+            Log.d("DEVELOP", "Selected: $it")
+        },
+            applyingFilters = {
+                mainViewModel.getMoviesFromUserConfiguration(userLang, userCont)
+            }
+        )
 
         Box(modifier = modifier.fillMaxSize()){
             LazyVerticalGrid(
@@ -58,7 +76,26 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Composable
+    fun ManageDialog(
+        onLanguageSelected: (String) -> Unit,
+        onContentTypeSelected: (String) -> Unit,
+        applyingFilters: () -> Unit
+        )
+    {
+        val openAlertDialog = remember { mutableStateOf(true) }
 
+        when {
+            openAlertDialog.value -> {
+                AlertDialogScreen(
+                    onDismissRequest = { openAlertDialog.value =  false},
+                    onLanguageSelected = onLanguageSelected,
+                    onContentTypeSelected = onContentTypeSelected,
+                    applyingFilters = applyingFilters
+                )
+            }
+        }
+    }
 
     @Preview(showBackground = true, device = "id:pixel_10")
     @Composable

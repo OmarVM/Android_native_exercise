@@ -7,7 +7,6 @@ import com.searchandcode.improvingcodechallenge.repository.remote.EndPoints
 import com.searchandcode.improvingcodechallenge.repository.remote.RemoteRepository
 import com.searchandcode.improvingcodechallenge.repository.remote.RemoteRepositoryContract
 import com.searchandcode.improvingcodechallenge.repository.remote.TheMovieDBAPI
-import com.searchandcode.improvingcodechallenge.usecase.GetPopularMoviesListUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -59,13 +58,5 @@ class NetworkingModule {
         theMovieDBAPI: TheMovieDBAPI
     ): RemoteRepositoryContract {
         return RemoteRepository(theMovieDBAPI)
-    }
-
-    @Singleton
-    @Provides
-    fun providePopularMoviesUseCase(
-        repository: RemoteRepositoryContract
-    ): GetPopularMoviesListUseCase {
-        return GetPopularMoviesListUseCase(repository)
     }
 }
